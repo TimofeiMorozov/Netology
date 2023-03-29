@@ -9,7 +9,7 @@ struct Address {
     int postcode;
 };
 //Функция вывода адреса на экран
-void PrintAddress(Address& address) {
+void PrintAddress(const Address& address) {
     std::cout  << "Страна: " << address.country << std::endl;
     std::cout << "Город: " << address.city << std::endl;
     std::cout << "Улица: " << address.street << std::endl;
