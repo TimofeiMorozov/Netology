@@ -49,20 +49,21 @@ class Calculator {
         }
         //Ask user to type two numbers
         void Result() {
+            double temp;
             std::cout << "Введите num1: ";
-            std::cin >> num1;
-            while(!SetNum1(num1)) {
+            std::cin >> temp;
+            while(!SetNum1(temp)) {
                 std::cout << "Неверный ввод!" << std::endl;
                 std::cout << "Введите num1: ";
-                std::cin >> num1;
+                std::cin >> temp;
             }
 
             std::cout << "Введите num2: ";
-            std::cin >> num2;
-            while(!SetNum2(num2)) {
+            std::cin >> temp;
+            while(!SetNum2(temp)) {
                 std::cout << "Неверный ввод!" << std::endl;
                 std::cout << "Введите num2: ";
-                std::cin >> num2;
+                std::cin >> temp;
             }
         }
 };
