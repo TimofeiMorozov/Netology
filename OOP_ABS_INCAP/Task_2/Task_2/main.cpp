@@ -40,7 +40,7 @@ public:
         return full_address;
     }
     
-    void GetFullAddress(std::vector<std::vector<std::string>> addresses, int N) {
+    void GetFullAddress(const std::vector<std::vector<std::string>>& addresses, int N) {
         std::ofstream outFile("out.txt");
         outFile << N << "\n";
         for(int i = 0; i < N; ++i) {
@@ -73,6 +73,11 @@ int main() {
             inFile >> city >> street >> house >> apartment;
         address.addresses.push_back(address.SetFullAddress(city, street, house, apartment));
     }
+    //Sort data by first column
+    sort(address.addresses.begin(), address.addresses.end(),
+         [](const std::vector<std::string>& lhs, const std::vector<std::string>& rhs) {
+        return lhs[0] < rhs[0];
+    });
     
     address.GetFullAddress(address.addresses, N);
     
