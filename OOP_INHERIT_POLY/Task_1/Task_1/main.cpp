@@ -11,11 +11,14 @@ private:
     }
     
 protected:
-    int sides_count = 0;
-    std::string name = "Фигура";
+    int sides_count;
+    std::string name;
     
 public:
-    Figure() {}
+    Figure() {
+        sides_count = 0;
+        name = "Фигура";
+    }
     
     Figure(int sides_count, std::string name) {
         this->sides_count = sides_count;
