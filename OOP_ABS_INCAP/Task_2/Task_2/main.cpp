@@ -1,10 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <vector>
 
 int ADDRESSES_COUNT = 0;
-int CLASS_OBJECT_COUNT = 4;
 class Address {
 private:
     std::string city;
@@ -15,57 +13,45 @@ public:
     void SetAddress(std::ifstream& inFile) {
         inFile >> city >> street >> house >> apartment;
     }
-    std::string GetCity() {
+    std::string GetCity() const {
         return city;
     }
-    std::string GetStreet() {
+    std::string GetStreet() const {
         return street;
     }
-    int GetHouse() {
+    int GetHouse() const {
         return house;
     }
-    int GetApartment() {
+    int GetApartment() const {
         return apartment;
     }
 };
 
-void PrintOut (const std::vector<std::vector<std::string>>& addresses, std::ofstream& outFile) {
-    for (int i = 0; i < ADDRESSES_COUNT; ++i) {
-        for (int j = 0; j < (CLASS_OBJECT_COUNT - 1); ++j) {
-            outFile << addresses[i][j] << ", ";
-        }
-        outFile << addresses[i][CLASS_OBJECT_COUNT - 1] << "\n";
-    }
-}
-
 int main() {
-    setlocale(LC_ALL, "Russian");
-    Address address;
-    std::vector<std::vector<std::string>> addresses;
+    setlocale(LC_ALL, "Russian");\
     
     std::ifstream inFile("in.txt");
-    std::ofstream outFile("out.txt");
-    
     inFile >> ADDRESSES_COUNT;
-    outFile << ADDRESSES_COUNT << "\n";
+    Address* address = new Address[ADDRESSES_COUNT];
+    
     for (int i = 0; i < ADDRESSES_COUNT; ++i) {
-        std::vector<std::string> full_address;
-        address.SetAddress(inFile);
-        full_address = {address.GetCity(),
-                        address.GetStreet(),
-                        std::to_string(address.GetHouse()),
-                        std::to_string(address.GetApartment())};
-        addresses.push_back(full_address);
+        address[i].SetAddress(inFile);
     }
     
-    sort(addresses.begin(), addresses.end(),
-         [](const std::vector<std::string>& lhs, const std::vector<std::string>& rhs) {
-        return lhs[0] < rhs[0];
+    std::sort(address, address + ADDRESSES_COUNT, [](const Address& lhs, const Address& rhs) {
+        return lhs.GetCity() < rhs.GetCity();
     });
-
-    PrintOut(addresses, outFile);
+    
+    std::ofstream outFile("out.txt");
+    for (int i = 0; i < ADDRESSES_COUNT; ++i) {
+        outFile << address[i].GetCity() << ", ";
+        outFile << address[i].GetStreet() << ", ";
+        outFile << address[i].GetHouse() << ", ";
+        outFile << address[i].GetApartment() << "\n";
+    }
     
     inFile.close();
     outFile.close();
+    delete[] address;
     return 0;
 }
