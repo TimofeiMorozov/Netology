@@ -43,6 +43,7 @@ int main() {
     });
     
     std::ofstream outFile("out.txt");
+    outFile << ADDRESSES_COUNT << "\n";
     for (int i = 0; i < ADDRESSES_COUNT; ++i) {
         outFile << address[i].GetCity() << ", ";
         outFile << address[i].GetStreet() << ", ";
