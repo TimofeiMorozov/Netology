@@ -5,6 +5,9 @@ class Figure {
 protected:
     int sides_count;
     std::string name;
+    int a, b, c, d; //sides
+    int A, B, C, D; //angles
+    
 public:
     Figure() {
         sides_count = 0;
@@ -14,25 +17,23 @@ public:
         this->sides_count = sides_count;
         this->name = name;
     }
-    int GetCount() {
+    int GetCount() const {
         return sides_count;
     }
-    std::string GetName() {
+    std::string GetName() const {
         return name;
     }
+    int GetSideA() const { return a; };
+    int GetSideB() const { return b; };
+    int GetSideC() const { return c; };
+    int GetSideD() const { return d; };
+    int GetAngleA() const { return A; };
+    int GetAngleB() const { return B; };
+    int GetAngleC() const { return C; };
+    int GetAngleD() const { return D; };
 };
 
 class Triangle : public Figure {
-protected:
-    int a, b, c; //Sides
-    int A, B, C; //Angles
-private:
-    int GetSideA() { return a; }
-    int GetSideB() { return b; }
-    int GetSideC() { return c; }
-    int GetAngleA() { return A; }
-    int GetAngleB() { return B; }
-    int GetAngleC() { return C; }
 public:
     Triangle() : Figure(3, "Треугольник") {
         a = 10; b = 20; c = 30;
@@ -52,13 +53,6 @@ public:
     }
     Triangle(int a) : Figure(3, "Равносторонний треугольник") {
         this->a = a;
-    }
-    
-    void PrintInfo() {
-        std::cout << GetName() << ":" << std::endl;
-        std::cout << "Стороны: " << "a=" << GetSideA() << " " << "b=" << GetSideB() << " " << "c=" << GetSideC() << std::endl;
-        std::cout << "Углы: " << "A=" << GetAngleA() << " " << "B=" << GetAngleB() << " " << "C=" << GetAngleC() << std::endl;
-        std::cout << std::endl;
     }
 };
 class RigthTriangle : public Triangle {
@@ -84,18 +78,6 @@ public:
 
 
 class Quadrilateral : public Figure {
-protected:
-    int a, b, c, d; //sides
-    int A, B, C, D; //angles
-private:
-    int GetSideA() { return a; };
-    int GetSideB() { return b; };
-    int GetSideC() { return c; };
-    int GetSideD() { return d; };
-    int GetAngleA() { return A; };
-    int GetAngleB() { return B; };
-    int GetAngleC() { return C; };
-    int GetAngleD() { return D; };
 public:
     Quadrilateral() : Figure(4, "Четырехугольник") {
         a = 10; b = 20; c = 30; d = 40;
@@ -108,13 +90,6 @@ public:
     Quadrilateral(int a, int b, int A, int B) : Figure(4, "Параллелограмм") {
         this->a = a; this->b = b;
         this->A = A; this->B = B;
-    }
-    
-    void PrintInfo() {
-        std::cout << GetName() << ":" << std::endl;
-        std::cout << "Стороны: " << "a=" << GetSideA() << " " << "b=" << GetSideB() << " " << "c=" << GetSideC() << " " << "d=" << GetSideD() << std::endl;
-        std::cout << "Углы: " << "A=" << GetAngleA() << " " << "B=" << GetAngleB() << " " << "C=" << GetAngleC()<< " " << "D=" << GetAngleD() << std::endl;
-        std::cout << std::endl;
     }
 };
 class Parallelogram : public Quadrilateral {
@@ -159,27 +134,43 @@ public:
     }
 };
 
+void PrintInfo (const Figure* f) {
+    std::cout << f->GetName() << ":" << std::endl;
+    std::cout << "Стороны: " << "a=" << f->GetSideA() << " " << "b=" << f->GetSideB() << " " << "c=" << f->GetSideC();
+    if (f->GetCount() == 4) {
+        std::cout << " d=" << f->GetSideD();
+    }
+    std::cout << std::endl;
+    std::cout << "Углы: " << "A=" << f->GetAngleA() << " " << "B=" << f->GetAngleB() << " " << "C=" << f->GetAngleC();
+    if(f->GetCount() == 4) {
+        std::cout << " D=" << f->GetAngleD();
+    }
+    std::cout << std::endl;
+    std::cout << std::endl;
+}
+
 int main() {
     setlocale(LC_ALL, "Russian");
-    Triangle triangle;
-    triangle.PrintInfo();
-    RigthTriangle right_triangle;
-    right_triangle.PrintInfo();
-    IsoscelesTriangle isosceles_triangle;
-    isosceles_triangle.PrintInfo();
-    EquilateralTriangle equilateral_triangle;
-    equilateral_triangle.PrintInfo();
     
-    Quadrilateral quadrilateral;
-    quadrilateral.PrintInfo();
-    Parallelogram parallelogram;
-    parallelogram.PrintInfo();
-    Rhombus rhombus;
-    rhombus.PrintInfo();
-    Rectangle rectangle;
-    rectangle.PrintInfo();
-    Square square;
-    square.PrintInfo();
+    Figure* triangle = new Triangle;
+    PrintInfo(triangle);
+    Figure* right_triangle = new RigthTriangle;
+    PrintInfo(right_triangle);
+    Figure* isosceles_triangle = new IsoscelesTriangle;
+    PrintInfo(isosceles_triangle);
+    Figure* equilateral_triangle = new EquilateralTriangle;
+    PrintInfo(equilateral_triangle);
+    
+    Figure* quadrilateral = new Quadrilateral;
+    PrintInfo(quadrilateral);
+    Figure* parallelogram = new Parallelogram;
+    PrintInfo(parallelogram);
+    Figure* rhombus = new Rhombus;
+    PrintInfo(rhombus);
+    Figure* rectangle = new Rectangle;
+    PrintInfo(rectangle);
+    Figure* square = new Square;
+    PrintInfo(square);
     
     return 0;
 }
