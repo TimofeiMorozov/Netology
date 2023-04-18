@@ -5,8 +5,6 @@ class Figure {
 protected:
     int sides_count;
     std::string name;
-    int a, b, c, d; //sides
-    int A, B, C, D; //angles
     
 public:
     Figure() {
@@ -23,17 +21,22 @@ public:
     std::string GetName() const {
         return name;
     }
-    int GetSideA() const { return a; };
-    int GetSideB() const { return b; };
-    int GetSideC() const { return c; };
-    int GetSideD() const { return d; };
-    int GetAngleA() const { return A; };
-    int GetAngleB() const { return B; };
-    int GetAngleC() const { return C; };
-    int GetAngleD() const { return D; };
+    virtual void PrintInfo() const {
+        std::cout << GetName() << ":" << std::endl;
+    }
 };
 
 class Triangle : public Figure {
+protected:
+    int a, b, c; //sides
+    int A, B, C; //angles
+private:
+    int GetSideA() const { return a; }
+    int GetSideB() const { return b; }
+    int GetSideC() const { return c; }
+    int GetAngleA() const { return A; }
+    int GetAngleB() const { return B; }
+    int GetAngleC() const { return C; }
 public:
     Triangle() : Figure(3, "Треугольник") {
         a = 10; b = 20; c = 30;
@@ -53,6 +56,12 @@ public:
     }
     Triangle(int a) : Figure(3, "Равносторонний треугольник") {
         this->a = a;
+    }
+    void PrintInfo() const override {
+        Figure::PrintInfo();
+        std::cout << "Стороны: " << "a=" << GetSideA() << " " << "b=" << GetSideB() << " " << "c=" << GetSideC() << std::endl;
+        std::cout << "Углы: " << "A=" << GetAngleA() << " " << "B=" << GetAngleB() << " " << "C=" << GetAngleC() << std::endl;
+        std::cout << std::endl;
     }
 };
 class RigthTriangle : public Triangle {
@@ -78,6 +87,18 @@ public:
 
 
 class Quadrilateral : public Figure {
+protected:
+    int a, b, c, d; //sides
+    int A, B, C, D; //angles
+private:
+    int GetSideA() const { return a; }
+    int GetSideB() const { return b; }
+    int GetSideC() const { return c; }
+    int GetSideD() const { return d; }
+    int GetAngleA() const { return A; }
+    int GetAngleB() const { return B; }
+    int GetAngleC() const { return C; }
+    int GetAngleD() const { return D; }
 public:
     Quadrilateral() : Figure(4, "Четырехугольник") {
         a = 10; b = 20; c = 30; d = 40;
@@ -90,6 +111,12 @@ public:
     Quadrilateral(int a, int b, int A, int B) : Figure(4, "Параллелограмм") {
         this->a = a; this->b = b;
         this->A = A; this->B = B;
+    }
+    void PrintInfo() const override {
+        Figure::PrintInfo();
+        std::cout << "Стороны: " << "a=" << GetSideA() << " " << "b=" << GetSideB() << " " << "c=" << GetSideC() << "d=" << GetSideD() << std::endl;
+        std::cout << "Углы: " << "A=" << GetAngleA() << " " << "B=" << GetAngleB() << " " << "C=" << GetAngleC() << "D=" << GetAngleD() << std::endl;
+        std::cout << std::endl;
     }
 };
 class Parallelogram : public Quadrilateral {
@@ -134,7 +161,7 @@ public:
     }
 };
 
-void PrintInfo (const Figure* f) {
+/* void PrintInfo (const Figure* f) {
     std::cout << f->GetName() << ":" << std::endl;
     std::cout << "Стороны: " << "a=" << f->GetSideA() << " " << "b=" << f->GetSideB() << " " << "c=" << f->GetSideC();
     if (f->GetCount() == 4) {
@@ -147,6 +174,10 @@ void PrintInfo (const Figure* f) {
     }
     std::cout << std::endl;
     std::cout << std::endl;
+} */
+
+void PrintInfo(const Figure* f) {
+    f->PrintInfo();
 }
 
 int main() {
