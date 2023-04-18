@@ -61,7 +61,6 @@ public:
         Figure::PrintInfo();
         std::cout << "Стороны: " << "a=" << GetSideA() << " " << "b=" << GetSideB() << " " << "c=" << GetSideC() << std::endl;
         std::cout << "Углы: " << "A=" << GetAngleA() << " " << "B=" << GetAngleB() << " " << "C=" << GetAngleC() << std::endl;
-        std::cout << std::endl;
     }
 };
 class RigthTriangle : public Triangle {
@@ -116,7 +115,6 @@ public:
         Figure::PrintInfo();
         std::cout << "Стороны: " << "a=" << GetSideA() << " " << "b=" << GetSideB() << " " << "c=" << GetSideC() << "d=" << GetSideD() << std::endl;
         std::cout << "Углы: " << "A=" << GetAngleA() << " " << "B=" << GetAngleB() << " " << "C=" << GetAngleC() << "D=" << GetAngleD() << std::endl;
-        std::cout << std::endl;
     }
 };
 class Parallelogram : public Quadrilateral {
@@ -161,23 +159,9 @@ public:
     }
 };
 
-/* void PrintInfo (const Figure* f) {
-    std::cout << f->GetName() << ":" << std::endl;
-    std::cout << "Стороны: " << "a=" << f->GetSideA() << " " << "b=" << f->GetSideB() << " " << "c=" << f->GetSideC();
-    if (f->GetCount() == 4) {
-        std::cout << " d=" << f->GetSideD();
-    }
-    std::cout << std::endl;
-    std::cout << "Углы: " << "A=" << f->GetAngleA() << " " << "B=" << f->GetAngleB() << " " << "C=" << f->GetAngleC();
-    if(f->GetCount() == 4) {
-        std::cout << " D=" << f->GetAngleD();
-    }
-    std::cout << std::endl;
-    std::cout << std::endl;
-} */
-
 void PrintInfo(const Figure* f) {
     f->PrintInfo();
+    std::cout << std::endl;
 }
 
 int main() {
