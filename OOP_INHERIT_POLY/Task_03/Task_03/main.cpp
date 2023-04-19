@@ -52,24 +52,21 @@ private:
     int GetAngleB() const { return B; }
     int GetAngleC() const { return C; }
 public:
-    Triangle() : Figure(3, "Треугольник") {
-        a = 10; b = 20; c = 30;
-        A = 50; B = 60; C = 70;
-    }
-    /* Triangle(int a, int b, int c, int A, int B, int C) : Figure(3, "Треугольник") {
+    Triangle(int a, int b, int c, int A, int B, int C) : Figure(3, "Треугольник") {
         this->a = a; this->b = b; this->c = c;
         this->A = A; this->B = B; this->C = C;
-    } */
-    Triangle(int a, int b, int c, int A, int B) : Figure(3, "Прямоугольный треугольник") {
+    }
+    Triangle(int a, int b, int c, int A, int B, int C, std::string name) : Figure(3, name) {
         this->a = a; this->b = b; this->c = c;
-        this->A = A; this->B = B;
+        this->A = A; this->B = B; this->C = C;
     }
-    Triangle(int a, int b, int A, int B) : Figure(3, "Равнобедренный треугольник") {
-        this->a = a; this->b = b;
-        this->A = A; this->B = B;
+    Triangle(int a, int b, int A, int B, std::string name) : Figure(3, name) {
+        this->a = c = a; this->b = b;
+        this->A = C = A; this->B = B;
     }
-    Triangle(int a) : Figure(3, "Равносторонний треугольник") {
-        this->a = a;
+    Triangle(int a, int A, std::string name) : Figure(3, name) {
+        this->a = b = c = a;
+        this->A = B = C = A;
     }
     bool Check() const override {
         if(sides_count == 3 && (A + B + C == 180)) {
@@ -84,24 +81,37 @@ public:
         std::cout << "Углы: " << "A=" << GetAngleA() << " " << "B=" << GetAngleB() << " " << "C=" << GetAngleC() << std::endl;
     }
 };
+
 class RigthTriangle : public Triangle {
 public:
-    RigthTriangle() : Triangle(10, 20, 30, 50, 60) {
-        C = 90;
+    RigthTriangle(int a, int b, int c, int A, int B) : Triangle(a, b, c, A, B, 90, "Прямоугольный треугольник") {}
+    bool Check() const override {
+        if(Triangle::Check()) {
+            if(C == 90) { return true; }
+            else { return false; }
+        } else { return false; }
     }
 };
+
 class IsoscelesTriangle : public Triangle {
 public:
-    IsoscelesTriangle() : Triangle(10, 20, 50, 60) {
-        c = a;
-        C = A;
+    IsoscelesTriangle(int a, int b, int A, int B) : Triangle(a, b, A, B, "Равнобедренный треугольник") {}
+    bool Check() const override {
+        if(Triangle :: Check()) {
+            if(a == c && A == C) { return true; }
+            else { return false; }
+        } else { return false; }
     }
 };
+
 class EquilateralTriangle : public Triangle {
 public:
-    EquilateralTriangle() : Triangle(30) {
-        b = c = a;
-        A = B = C = 60;
+    EquilateralTriangle(int a) : Triangle(a, 60, "Равносторонний треугольник") {}
+    bool Check() const override {
+        if(Triangle :: Check()) {
+            if ((a == b && a == c && c == b) && (A == 60 && B == 60 && C == 60)) { return true; }
+            else { return false; }
+        } else { return false; }
     }
 };
 
@@ -120,18 +130,16 @@ private:
     int GetAngleC() const { return C; }
     int GetAngleD() const { return D; }
 public:
-    Quadrilateral() : Figure(4, "Четырехугольник") {
-        a = 10; b = 20; c = 30; d = 40;
-        A = 50; B = 60; C = 70; D = 80;
-    }
-    /* Quadrilateral(int a, int b, int c, int d, int A, int B, int C, int D) : Figure(4, "Четырехугольник") {
+    Quadrilateral(int a, int b, int c, int d, int A, int B, int C, int D) : Figure(4, "Четырехугольник") {
         this->a = a; this->b = b; this->c = c; this->d = d;
         this->A = A; this->B = B; this->C = C; this->D = D;
-    } */
-    Quadrilateral(int a, int b, int A, int B) : Figure(4, "Параллелограмм") {
-        this->a = a; this->b = b;
-        this->A = A; this->B = B;
     }
+    Quadrilateral(int a, int b, int A, int B, std::string name) : Figure(4, name) {
+        this->a = c = a; this->b = d = b;
+        this->A = C = A; this->B = D = B;
+    }
+    Quadrilateral(std::string name) : Figure(4, name) {}
+    
     bool Check() const override {
         if(sides_count == 4 && (A + B + C + D == 360)) {
             return true;
@@ -145,45 +153,61 @@ public:
         std::cout << "Углы: " << "A=" << GetAngleA() << " " << "B=" << GetAngleB() << " " << "C=" << GetAngleC() << " " << "D=" << GetAngleD() << std::endl;
     }
 };
+
 class Parallelogram : public Quadrilateral {
 public:
-    Parallelogram() : Quadrilateral(20, 30, 30, 40) {
-        c = a; d = b;
-        C = A; D = B;
+    Parallelogram(int a, int b, int A, int B) : Quadrilateral(a, b, A, B, "Параллелограмм") {}
+    Parallelogram(int a, int A, int B, std::string name) : Quadrilateral(name) {
+        this->a = b = c = d = a;
+        this->A = C = A; this->B = D = B;
     }
-    Parallelogram(int a, int A, int B, std::string name) : Quadrilateral() {
-        this->a = a;
-        this->A = A; this->B = B;
-        this->name = name;
+    Parallelogram(std::string name, int a, int b, int A) : Quadrilateral(name) {
+        this->a = c = a; this->b = d = b;
+        this->A = B = C = D = A;
     }
-    Parallelogram(int a, int b, std::string name) : Quadrilateral() {
-        this->a = a; this->b = b;
-        this->name = name;
+    Parallelogram(int a, int A, std::string name) : Quadrilateral(name) {
+        this->a = b = c = d = a;
+        this->A = B = C = D = A;
     }
-    Parallelogram(int a, std::string name) : Quadrilateral() {
-        this->a = a;
-        this->name = name;
+    bool Check() const override {
+        if(Quadrilateral :: Check()) {
+            if((a == c && b == d) && (A == C && B == D)) { return true; }
+            else { return false; }
+        } else { return false; }
     }
 };
+
 class Rhombus : public Parallelogram {
 public:
-    Rhombus() : Parallelogram(30, 30, 40, "Ромб") {
-        b = c = d = a;
-        C = A; D = B;
+    Rhombus(int a, int A, int B) : Parallelogram(a, A, B, "Ромб") {}
+    Rhombus(int a, int A, std::string name) : Parallelogram(a, A, name) {}
+    bool Check() const override {
+        if(Parallelogram :: Check()) {
+            if(a == b && a == c && b == c) { return true; }
+            else { return false; }
+        } else { return false; }
     }
 };
+
 class Rectangle : public Parallelogram {
 public:
-    Rectangle() : Parallelogram(10, 20, "Прямоугольник") {
-        c = a; d = b;
-        A = B = C = D = 90;
+    Rectangle(int a, int b) : Parallelogram("Прямоугольник", a, b, 90) {}
+    bool Check() const override {
+        if(Parallelogram :: Check()) {
+            if(A == 90 && B == 90 && C == 90 && D == 90) { return true; }
+            else { return false; }
+        } else { return false; }
     }
 };
-class Square : public Parallelogram {
+
+class Square : public Rhombus {
 public:
-    Square() : Parallelogram(20, "Квадрат") {
-        d = c = b = a;
-        A = B = C = D = 90;
+    Square(int a) : Rhombus(a, 90, "Квадрат") {}
+    bool Check() const override {
+        if(Rhombus :: Check()) {
+            if(A == 90 && B == 90 && C == 90 && D == 90) { return true; }
+            else { return false; }
+        } else { return false; }
     }
 };
 
@@ -195,29 +219,34 @@ void PrintInfo(const Figure* f) {
 int main() {
     setlocale(LC_ALL, "Russian");
     
-    Figure* figure = new Figure();
-    PrintInfo(figure);
-    
-    Figure* triangle = new Triangle;
+    Figure* triangle = new Triangle(10, 20, 30, 50, 60, 70);
     PrintInfo(triangle);
-    Figure* right_triangle = new RigthTriangle;
+    delete triangle;
+    Figure* right_triangle = new RigthTriangle(10, 20, 30, 50, 40);
     PrintInfo(right_triangle);
-    Figure* isosceles_triangle = new IsoscelesTriangle;
+    delete right_triangle;
+    Figure* isosceles_triangle = new IsoscelesTriangle(10, 20, 50, 60);
     PrintInfo(isosceles_triangle);
-    Figure* equilateral_triangle = new EquilateralTriangle;
+    delete isosceles_triangle;
+    Figure* equilateral_triangle = new EquilateralTriangle(30);
     PrintInfo(equilateral_triangle);
+    delete equilateral_triangle;
     
-    Figure* quadrilateral = new Quadrilateral;
+    Figure* quadrilateral = new Quadrilateral(10, 20, 30, 40, 50, 60, 70, 80);
     PrintInfo(quadrilateral);
-    Figure* parallelogram = new Parallelogram;
+    delete quadrilateral;
+    Figure* parallelogram = new Parallelogram(20, 30, 30, 40);
     PrintInfo(parallelogram);
-    Figure* rhombus = new Rhombus;
+    delete parallelogram;
+    Figure* rhombus = new Rhombus(30, 30, 40);
     PrintInfo(rhombus);
-    Figure* rectangle = new Rectangle;
+    delete rhombus;
+    Figure* rectangle = new Rectangle(10, 20);
     PrintInfo(rectangle);
-    Figure* square = new Square;
+    delete rectangle;
+    Figure* square = new Square(20);
     PrintInfo(square);
+    delete square;
     
     return 0;
 }
-
