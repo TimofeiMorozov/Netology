@@ -5,13 +5,22 @@ class Fraction
 private:
     int numerator_;
     int denominator_;
-
+    
+    double FractionValue () {
+        return static_cast<double>(numerator_) / static_cast<double>(denominator_);
+    }
 public:
     Fraction(int numerator, int denominator)
     {
         numerator_ = numerator;
         denominator_ = denominator;
     }
+    
+    bool operator== (Fraction other) { return FractionValue() == other.FractionValue(); }
+    bool operator< (Fraction other) { return FractionValue() < other.FractionValue(); }
+    bool operator> (Fraction other) { return other < *this; }
+    bool operator<= (Fraction other) { return !(*this > other); }
+    bool operator>= (Fraction other) { return !(*this < other); }
 };
 
 int main()
