@@ -51,23 +51,15 @@ public:
     
     Fraction operator* (Fraction other) { return  Fraction(numerator_ * other.numerator_, denominator_ * other.denominator_); }
     
-    Fraction operator++ () {
-        return Fraction(numerator_ + denominator_, denominator_);
-    }
+    Fraction operator/ (Fraction other) { return Fraction(numerator_ * other.denominator_, denominator_ * other.numerator_); }
     
-    Fraction operator++ (int) {
-        Fraction temp = *this;
-        Fraction(numerator_ + denominator_, denominator_);
-        return temp;
-    }
+    Fraction& operator++ () { numerator_ += denominator_; return *this; }
     
-    Fraction operator-- () { numerator_--; return *this; }
+    Fraction operator++ (int) { Fraction temp = *this; ++(*this); return temp; }
     
-    Fraction operator-- (int) {
-        Fraction temp = *this;
-        --(*this);
-        return temp;
-    }
+    Fraction& operator-- () { numerator_ -= denominator_; return *this; }
+    
+    Fraction operator-- (int) { Fraction temp = *this; --(*this); return temp; }
 };
 
 int main()
@@ -98,14 +90,32 @@ int main()
         mul_f1_f2.ReduceFraction();
         f1.Print(); std::cout << " * "; f2.Print(); std::cout << " = "; mul_f1_f2.Print(); std::cout << std::endl;
         
+        Fraction div_f1_f2 = f1 / f2;
+        div_f1_f2.ReduceFraction();
+        f1.Print(); std::cout << " / "; f2.Print(); std::cout << " = "; div_f1_f2.Print(); std::cout << std::endl;
+        
+        std::cout << "++"; f1.Print(); std::cout << " * "; f2.Print(); std::cout << " = ";
         Fraction inc_pref = ++f1 * f2;
         inc_pref.ReduceFraction();
-        std::cout << "++"; f1.Print(); std::cout << " * "; f2.Print(); std::cout << " = "; inc_pref.Print(); std::cout << std::endl;
+        inc_pref.Print(); std::cout << std::endl;
         std::cout << "Значение дроби 1 = "; f1.Print(); std::cout << std::endl;
         
+        f1.Print(); std::cout << "++";  std::cout << " * "; f2.Print(); std::cout << " = ";
         Fraction inc_post = f1++ * f2;
         inc_post.ReduceFraction();
-        f1.Print(); std::cout << "++";  std::cout << " * "; f2.Print(); std::cout << " = "; inc_post.Print(); std::cout << std::endl;
+        inc_post.Print(); std::cout << std::endl;
+        std::cout << "Значение дроби 1 = "; f1.Print(); std::cout << std::endl;
+        
+        std::cout << "--"; f1.Print(); std::cout << " * "; f2.Print(); std::cout << " = ";
+        Fraction dicr_pref = --f1 * f2;
+        dicr_pref.ReduceFraction();
+        dicr_pref.Print(); std::cout << std::endl;
+        std::cout << "Значение дроби 1 = "; f1.Print(); std::cout << std::endl;
+        
+        f1.Print(); std::cout << "--";  std::cout << " * "; f2.Print(); std::cout << " = ";
+        Fraction dicr_post = f1-- * f2;
+        dicr_post.ReduceFraction();
+        dicr_post.Print(); std::cout << std::endl;
         std::cout << "Значение дроби 1 = "; f1.Print(); std::cout << std::endl;
         
     } catch (std::exception& ex) {
